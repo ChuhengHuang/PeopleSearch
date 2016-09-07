@@ -27,7 +27,7 @@ namespace PeopleSearch.Models
                          Address = "100 S 100 E, Salt LAke City, UT 84000",
                          Age = 25,
                          Interests = "Football",
-                         //Picture
+                         //Picture = ImageToByteArray(@"C:\Temp\PeopleSearch-master_Update\PeopleSearch-master\src\PeopleSearch\Images\IMG_00017.JPG"),
                      },
 
                      new Person
@@ -37,7 +37,7 @@ namespace PeopleSearch.Models
                          Address = "100 S State Street, Salt LAke City, UT 84005",
                          Age = 55,
                          Interests = "Hiking",
-                         //Picture
+                         //Picture = ImageToByteArray(@"C:\Temp\PeopleSearch-master_Update\PeopleSearch-master\src\PeopleSearch\Images\IMG_00017.JPG"),
                      },
 
                      new Person
@@ -47,7 +47,7 @@ namespace PeopleSearch.Models
                          Address = "100 E Redwood Dr., Salt LAke City, UT 84012",
                          Age = 30,
                          Interests = "Swimming",
-                         //Picture
+                         //Picture = ImageToByteArray(@"C:\Temp\PeopleSearch-master_Update\PeopleSearch-master\src\PeopleSearch\Images\IMG_00017.JPG"),
                      },
 
                    new Person
@@ -57,7 +57,7 @@ namespace PeopleSearch.Models
                        Address = "3500 S 4000 W, West Valley City, UT 84100",
                        Age = 60,
                        Interests = "Reading",
-                       //Picture
+                       //Picture = ImageToByteArray(@"C:\Temp\PeopleSearch-master_Update\PeopleSearch-master\src\PeopleSearch\Images\IMG_00017.JPG"),
                    }
                 );
                 context.SaveChanges();
@@ -65,38 +65,10 @@ namespace PeopleSearch.Models
         }
 
 
-        //private byte[] ImageToByteArray(System.Drawing.Image imageIn)
-
-        //{
-
-        //    using (MemoryStream ms = new MemoryStream())
-
-        //    {
-
-        //    imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
-
-        //    return ms.ToArray();
-
-        //    }
-
-        //}
-
-
-        //public Image ByteArrayToImage(byte[] byteArrayIn)
-
-        //{
-
-        //    using (MemoryStream ms = new MemoryStream(byteArrayIn))
-
-        //    {
-
-        //    Image returnImage = Image.FromStream(ms);
-
-        //    return returnImage;
-
-        //    }
-
-        //}
+        private static byte[] ImageToByteArray(string filePath)
+        {
+            return (System.IO.File.ReadAllBytes(filePath));
+        }
 
     }
 }

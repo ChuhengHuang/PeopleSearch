@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PeopleSearch.Data;
 using PeopleSearch.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace PeopleSearch.Controllers
 {
@@ -48,15 +50,31 @@ namespace PeopleSearch.Controllers
         // POST: People/Create       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Address,Age,FirstName,Interests,LastName,Picture")] Person person)
+        public IActionResult Create([Bind("ID,Address,Age,FirstName,Interests,LastName")] Person person, IFormFile uploadFIle)
         {
             if (ModelState.IsValid)
             {
+                if (uploadFIle != null)
+                {
+                    using (var reader = new StreamReader(uploadFIle.OpenReadStream()))
+                    {
+                        var bytes = default(byte[]);
+                        using (var memstream = new MemoryStream())
+                        {
+                            reader.BaseStream.CopyTo(memstream);
+                            bytes = memstream.ToArray();
+
+                        }
+
+                        person.Picture = bytes;
+                    }
+                }
+
                 _context.Add(person);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(person);
-        }    
+        }
     }
 }

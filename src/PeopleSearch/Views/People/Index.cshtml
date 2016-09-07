@@ -18,22 +18,23 @@
                     contentType: 'application/json',
                     data: { searchString: document.getElementById("SearchString").value },
                     url: '@Url.Action("SearchPeople", "People")',
-                    success: function (result) {
+                    success: function (people) {
                         var s = '';
-                        for (var i = 0; i < result.length; i++)                           
+                        for (var i = 0; i < people.length; i++)
                             s += "<dl class='dl-horizontal'>" +
                                     "<dt>First Name: </dt>" +
-                                    "<dd>" + result[i].FirstName + "</dd>" +
+                                    "<dd>" + people[i].FirstName + "</dd>" +
                                     "<dt>Last Name: </dt>" +
-                                    "<dd>" + result[i].LastName + "</dd>" +
+                                    "<dd>" + people[i].LastName + "</dd>" +
                                     "<dt>Address: </dt>" +
-                                    "<dd>" + result[i].Address + "</dd>" +
+                                    "<dd>" + people[i].Address + "</dd>" +
                                     "<dt>Age: </dt>" +
-                                    "<dd>" + result[i].Age + "</dd>" +
+                                    "<dd>" + people[i].Age + "</dd>" +
                                     "<dt>Interests: </dt>" +
-                                    "<dd>" + result[i].Interests + "</dd>" +
+                                    "<dd>" + people[i].Interests + "</dd>" +
                                     "<dt>Picture: </dt>" +
-                                    "<dd>" + result[i].Picture + "</dd>" +
+                                    "<dd>" + people[i].Picture + "</dd>" +
+                                    //"<dd> <img src='" + getImgScr(people[i].Picture) + "' width='80' height='80' /></dd>" +
                             "</dl>";
                         $("#result").html(s);
                     }
@@ -41,6 +42,21 @@
             });
 
         });
+
+        function getImgScr(imageByteData) {
+            var imageDataURL;
+            if (imageByteData == null) {
+                imageDataURL = "No Picture";
+            }
+            else {
+                var imageBase64Data = Convert.ToBase64String(imageByteData);
+                imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
+            }
+
+            return imageDataURL;
+
+            //alert(imageDataURL);
+        }
     </script>
 
 </head>
