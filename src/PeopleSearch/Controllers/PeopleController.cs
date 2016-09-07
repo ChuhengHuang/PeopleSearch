@@ -19,41 +19,25 @@ namespace PeopleSearch.Controllers
             _context = context;    
         }
 
-        // GET: People
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Person.ToListAsync());
-        //}
-
-        public async Task<IActionResult> Index(string searchString)
+        // GET: People/Index
+        public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+        //GET: P//eople/Index
+        public JsonResult SearchPeople(string searchString)
+        {   
             var people = from p in _context.Person
-                         select p;
+                             select p;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 people = people.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
             }
 
-            return View(await people.ToListAsync());
-        }
-
-        // GET: People/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var person = await _context.Person.SingleOrDefaultAsync(m => m.ID == id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-
-            return View(person);
-        }
+            return Json(people);
+        }       
 
         // GET: People/Create
         public IActionResult Create()
@@ -61,9 +45,7 @@ namespace PeopleSearch.Controllers
             return View();
         }
 
-        // POST: People/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: People/Create       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Address,Age,FirstName,Interests,LastName,Picture")] Person person)
@@ -75,90 +57,6 @@ namespace PeopleSearch.Controllers
                 return RedirectToAction("Index");
             }
             return View(person);
-        }
-
-        // GET: People/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var person = await _context.Person.SingleOrDefaultAsync(m => m.ID == id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-            return View(person);
-        }
-
-        // POST: People/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Address,Age,FirstName,Interests,LastName,Picture")] Person person)
-        {
-            if (id != person.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(person);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PersonExists(person.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(person);
-        }
-
-        // GET: People/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var person = await _context.Person.SingleOrDefaultAsync(m => m.ID == id);
-            if (person == null)
-            {
-                return NotFound();
-            }
-
-            return View(person);
-        }
-
-        // POST: People/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var person = await _context.Person.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Person.Remove(person);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool PersonExists(int id)
-        {
-            return _context.Person.Any(e => e.ID == id);
-        }
+        }    
     }
 }

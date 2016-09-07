@@ -4,72 +4,62 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<html>
+<head>
 
-<p>
-    <a asp-action="Create">Create New Person</a>
-</p>
+    <title>Index</title>
+    <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){    
+            $('.displaypeople').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { searchString: document.getElementById("SearchString").value },
+                    url: '@Url.Action("SearchPeople", "People")',
+                    success: function (result) {
+                        var s = '';
+                        for (var i = 0; i < result.length; i++)                           
+                            s += "<dl class='dl-horizontal'>" +
+                                    "<dt>First Name: </dt>" +
+                                    "<dd>" + result[i].FirstName + "</dd>" +
+                                    "<dt>Last Name: </dt>" +
+                                    "<dd>" + result[i].LastName + "</dd>" +
+                                    "<dt>Address: </dt>" +
+                                    "<dd>" + result[i].Address + "</dd>" +
+                                    "<dt>Age: </dt>" +
+                                    "<dd>" + result[i].Age + "</dd>" +
+                                    "<dt>Interests: </dt>" +
+                                    "<dd>" + result[i].Interests + "</dd>" +
+                                    "<dt>Picture: </dt>" +
+                                    "<dd>" + result[i].Picture + "</dd>" +
+                            "</dl>";
+                        $("#result").html(s);
+                    }
+                });
+            });
 
-<form asp-controller="People" asp-action="Index" method="get" >
-    <p>
-        Name: <input type="text" name="SearchString">
-        <input type="submit" value="Search" />
-    </p>
-</form>
+        });
+    </script>
 
-<table class="table">
-    <thead>
-        <tr>            
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Interests)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Picture)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+</head>
+
+<body> 
+    <hr />
+    <table style="width:100%">
         <tr>
-            
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                Name: <input type="text" name="SearchString" id="SearchString">
+                <input type="button" class="displaypeople" value="Search People" />
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Interests)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Picture)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            <td align="right">
+                <a asp-action="Create">Create New Person</a>
             </td>
         </tr>
-}
-    </tbody>
-</table>
+    </table>  
+   
+    <div id="result"></div>
+
+</body>
+</html>

@@ -63,5 +63,40 @@ namespace PeopleSearch.Models
                 context.SaveChanges();
             }
         }
+
+
+        //private byte[] ImageToByteArray(System.Drawing.Image imageIn)
+
+        //{
+
+        //    using (MemoryStream ms = new MemoryStream())
+
+        //    {
+
+        //    imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+
+        //    return ms.ToArray();
+
+        //    }
+
+        //}
+
+
+        //public Image ByteArrayToImage(byte[] byteArrayIn)
+
+        //{
+
+        //    using (MemoryStream ms = new MemoryStream(byteArrayIn))
+
+        //    {
+
+        //    Image returnImage = Image.FromStream(ms);
+
+        //    return returnImage;
+
+        //    }
+
+        //}
+
     }
 }
