@@ -38,6 +38,16 @@ namespace PeopleSearch.Controllers
                 people = people.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
             }
 
+            //Build up the ImageScr for the Picture data
+            foreach (Person p in people)
+            {
+                if (p.Picture != null)
+                {
+                    string imageBase64Data = Convert.ToBase64String(p.Picture);
+                    p.ImageScr = string.Format("data:image/png;base64,{0}", imageBase64Data);
+                }
+            }
+
             return Json(people);
         }       
 

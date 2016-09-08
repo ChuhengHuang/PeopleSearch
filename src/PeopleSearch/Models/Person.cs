@@ -17,8 +17,9 @@ namespace PeopleSearch.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         public string Address { get; set; }
-        public int Age{ get; set; }
+        public int Age { get; set; }
         public string Interests { get; set; }
-        public byte[] Picture { get; set; }
+        public byte[] Picture { get; set; } // For store the image in database
+        public string ImageScr { get; set; }  //For display the image
     }
 }

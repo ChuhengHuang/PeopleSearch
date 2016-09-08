@@ -20,7 +20,7 @@
                     url: '@Url.Action("SearchPeople", "People")',
                     success: function (people) {
                         var s = '';
-                        for (var i = 0; i < people.length; i++)
+                        for (var i = 0; i < people.length; i++) {
                             s += "<dl class='dl-horizontal'>" +
                                     "<dt>First Name: </dt>" +
                                     "<dd>" + people[i].FirstName + "</dd>" +
@@ -32,31 +32,22 @@
                                     "<dd>" + people[i].Age + "</dd>" +
                                     "<dt>Interests: </dt>" +
                                     "<dd>" + people[i].Interests + "</dd>" +
-                                    "<dt>Picture: </dt>" +
-                                    "<dd>" + people[i].Picture + "</dd>" +
-                                    //"<dd> <img src='" + getImgScr(people[i].Picture) + "' width='80' height='80' /></dd>" +
-                            "</dl>";
+                                    "<dt>Picture: </dt>";
+                            if (people[i].ImageScr != null) {
+                                s += "<dd> <img src='" + people[i].ImageScr + "' width='80' height='80' /></dd>";
+                            }
+                            else {
+                                s += "<dd></dd>";
+                            }
+                            s += "</dl>";
+                        }
                         $("#result").html(s);
                     }
                 });
             });
 
         });
-
-        function getImgScr(imageByteData) {
-            var imageDataURL;
-            if (imageByteData == null) {
-                imageDataURL = "No Picture";
-            }
-            else {
-                var imageBase64Data = Convert.ToBase64String(imageByteData);
-                imageDataURL = string.Format("data:image/png;base64,{0}", imageBase64Data);
-            }
-
-            return imageDataURL;
-
-            //alert(imageDataURL);
-        }
+        
     </script>
 
 </head>
